@@ -29,7 +29,7 @@ app.get("/api/:date", function (req, res) {
         minute: "2-digit", // Two-digit minute (e.g., 00)
         second: "2-digit", // Two-digit second (e.g., 00)
         timeZoneName: "short", // Short time zone name (e.g., GMT)
-        timeZone: "UTC", // Specify the time zone as UTC
+        timeZone: "GMT", // Specify the time zone as UTC
     };
 
     const formatter = new Intl.DateTimeFormat("en-US", options);
