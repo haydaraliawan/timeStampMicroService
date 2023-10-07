@@ -48,6 +48,7 @@ app.get("/api/:date", function (req, res) {
     }
     // unixTime = Math.floor(date.getTime() / 1000); //
     unixTime = date.getTime();
+    unixTime = parseInt(unixTime); //
     const formattedDate = formatter.format(date);
     res.json({
         unix: unixTime, //
