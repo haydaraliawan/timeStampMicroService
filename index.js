@@ -46,7 +46,8 @@ app.get("/api/:date", function (req, res) {
       date = new Date(reqDate); // UTC time
 
     }
-    unixTime = Math.floor(date.getTime() / 1000); //
+    // unixTime = Math.floor(date.getTime() / 1000); //
+    unixTime = date.getTime();
     const formattedDate = formatter.format(date);
     res.json({
         unix: unixTime, //
