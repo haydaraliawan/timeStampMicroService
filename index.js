@@ -33,9 +33,19 @@ app.get("/api/:date", function (req, res) {
     };
 
     const formatter = new Intl.DateTimeFormat("en-US", options);
-    const date = new Date(req.params.date); // UTC time
-    const unixTime = Math.floor(date.getTime() / 1000); //
+    let reqDate = req.params.date;
+    let unixTime = null;
+    let date = null;
+    if (!reqDate.includes("-")) {
+        miliseconds = parseInt(reqDate);
+        date = new Date(miliseconds); // UTC time
+        console.log(date);
+        
+    }else{
+      date = new Date(reqDate); // UTC time
 
+    }
+    unixTime = Math.floor(date.getTime() / 1000); //
     const formattedDate = formatter.format(date);
     res.json({
         unix: unixTime, //
