@@ -37,23 +37,30 @@ app.get("/api/:date", function (req, res) {
     let reqDate = req.params.date;
     let unixTime = null;
     let date = null;
-    if (!reqDate.includes("-")) {
-        miliseconds = parseInt(reqDate);
-        date = new Date(miliseconds); // UTC time
-        console.log(date);
-        
+    let inputDate = null;
+    if(/^\d{13}$/.test(reqDate)){
+        inputDate = new Date(parseInt(reqDate));
     }else{
-      date = new Date(reqDate); // UTC time
-
+        inputDate = new Date(reqDate);
     }
+    if(inputDate.toString() === 'Invalid Date'){
+        res.json({ error: 'Invalid Date'});
+
+    }else{
+        date = new Date(reqDate); // UTC time
+        const formatter = new Intl.DateTimeFormat("en-GB", options);
+        const unixTime = Math.floor(inputDate.getTime() / 1000);
+        const formattedDate = formatter.format(inputDate);
+  
+        res.json({
+            unix: unixTime,
+            utc: formattedDate,
+        });
+    }
+
+    
     // unixTime = Math.floor(date.getTime() / 1000); //
-    unixTime = date.getTime();
-    unixTime = parseInt(unixTime)/1000; //
-    const formattedDate = formatter.format(date);
-    res.json({
-        unix: unixTime, //
-        utc: formattedDate,
-    });
+    
 });
 
 // listen for requests :)
