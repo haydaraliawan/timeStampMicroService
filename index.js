@@ -32,13 +32,16 @@ app.get("/api/:date", function (req, res) {
         hour12: false, // True
         timeZoneName: "short", // Specify the time zone as UTC
     };
+   
 
     const formatter = new Intl.DateTimeFormat("en-US", options);
     let reqDate = req.params.date;
     let unixTime = null;
     let date = null;
     let inputDate = null;
-    if(/^\d{13}$/.test(reqDate)){
+    if(reqDate == null) {
+        inputDate = new Date();
+    }else if(/^\d{13}$/.test(reqDate)){
         inputDate = new Date(parseInt(reqDate));
     }else{
         inputDate = new Date(reqDate);
