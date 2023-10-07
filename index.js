@@ -49,7 +49,7 @@ app.get("/api/:date", function (req, res) {
     }else{
         date = new Date(reqDate); // UTC time
         const formatter = new Intl.DateTimeFormat("en-GB", options);
-        const unixTime = Math.floor(inputDate.getTime() / 1000);
+        const unixTime = Math.floor(inputDate.getTime());
         const formattedDate = formatter.format(inputDate);
   
         res.json({
