@@ -30,7 +30,7 @@ app.get("/api/:date", function (req, res) {
         second: "2-digit", // Two-digit second (e.g., 00)
         timeZoneName: "short", // Short time zone name (e.g., GMT)
         hour12: false, // True
-        timeZone: "GMT", // Specify the time zone as UTC
+        timeZoneName: "short", // Specify the time zone as UTC
     };
 
     const formatter = new Intl.DateTimeFormat("en-US", options);
@@ -57,6 +57,6 @@ app.get("/api/:date", function (req, res) {
 });
 
 // listen for requests :)
-var listener = app.listen(3000, function () {
+var listener = app.listen(process.env.PORT, function () {
     console.log("Your app is listening on port " + listener.address().port);
 });
