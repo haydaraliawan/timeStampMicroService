@@ -18,52 +18,30 @@ app.get("/", function (req, res) {
     res.sendFile(__dirname + "/views/index.html");
 });
 
+app.get("/api/", function (req, res) {
+    date = new Date();
+    res.json({
+        unix: date.getTime(),
+        utc: date.toUTCString(),
+    })
+});
+
+const isInvalidDate = (date) => date.toUTCString() === "Invalid Date";
+
+
 // your first API endpoint...
 app.get("/api/:date", function (req, res) {
-    const options = {
-        weekday: "short", // Short day name (e.g., Fri)
-        day: "2-digit", // Two-digit day of the month (e.g., 25)
-        month: "short", // Short month name (e.g., Dec)
-        year: "numeric", // Full year (e.g., 2015)
-        hour: "2-digit", // Two-digit hour (e.g., 00)
-        minute: "2-digit", // Two-digit minute (e.g., 00)
-        second: "2-digit", // Two-digit second (e.g., 00)
-        timeZoneName: "short", // Short time zone name (e.g., GMT)
-        hour12: false, // True
-        timeZoneName: "short", // Specify the time zone as UTC
-    };
    
+    let date = new Date(req.params.date);
 
-    const formatter = new Intl.DateTimeFormat("en-US", options);
-    let reqDate = req.params.date;
-    let unixTime = null;
-    let date = null;
-    let inputDate = null;
-    if(reqDate == null) {
-        inputDate = new Date();
-    }else if(/^\d{13}$/.test(reqDate)){
-        inputDate = new Date(parseInt(reqDate));
-    }else{
-        inputDate = new Date(reqDate);
+    if(isInvalidDate(date)){
+        date = new Date(+req.params.date);
     }
-    if(inputDate.toString() === 'Invalid Date'){
-        res.json({ error: 'Invalid Date'});
+    res.json({
+        unix: date.getTime(),
+        utc: date.toUTCString()
+    });
 
-    }else{
-        date = new Date(reqDate); // UTC time
-        const formatter = new Intl.DateTimeFormat("en-GB", options);
-        const unixTime = Math.floor(inputDate.getTime());
-        const formattedDate = formatter.format(inputDate);
-  
-        res.json({
-            unix: unixTime,
-            utc: formattedDate,
-        });
-    }
-
-    
-    // unixTime = Math.floor(date.getTime() / 1000); //
-    
 });
 
 // listen for requests :)
