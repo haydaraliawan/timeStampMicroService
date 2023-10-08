@@ -43,6 +43,7 @@ app.get("/api/:date", function (req, res) {
         res.json({
             error: "Invalid date"
         })
+        return;
     }
     res.json({
         unix: date.getTime(),
